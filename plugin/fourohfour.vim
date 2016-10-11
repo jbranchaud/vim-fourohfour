@@ -93,6 +93,12 @@ function! LookupHTTPStatus(...) abort
   endif
 endfunction
 
+function! LookupHTTPStatusUnderCursor() abort
+  call LookupHTTPStatus( expand('<cword>') )
+endfunction
+
 command! -nargs=* FOF call LookupHTTPStatus( '<args>' )
+
+nnoremap <leader>k :call LookupHTTPStatusUnderCursor()<cr>
 
 " vim:set sw=2 sts=2:
