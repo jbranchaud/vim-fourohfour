@@ -73,11 +73,18 @@ function! HTTPStatusCodes()
         \}
 endfunction
 
+function! s:load_status_codes()
+  if !exists('g:fourohfour_status_codes')
+    let g:fourohfour_status_codes = HTTPStatusCodes()
+  endif
+  return g:fourohfour_status_codes
+endfunction
+
 function! LookupHTTPStatus(...) abort
   if a:0 ==# 0
     echo 'No arguments provided'
   else
-    let status_codes = HTTPStatusCodes()
+    let status_codes = s:load_status_codes()
     if has_key(status_codes, a:1)
       echo a:1." - ".status_codes[a:1]
     else
