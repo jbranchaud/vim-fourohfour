@@ -34,7 +34,12 @@ function! LookupHTTPStatus(...) abort
   if a:0 ==# 0
     echo 'No arguments provided'
   else
-    echo a:1." - ".HTTPStatusCodes()[a:1]
+    let status_codes = HTTPStatusCodes()
+    if has_key(status_codes, a:1)
+      echo a:1." - ".status_codes[a:1]
+    else
+      echo "No entry for ".a:1
+    endif
   endif
 endfunction
 
