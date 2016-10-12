@@ -1,0 +1,19 @@
+*fourohfour.txt*	Lookup HTTP status codes without leaving Vim
+
+Author: Josh Branchaud <http://joshbranchaud.com>
+
+INTRODUCTION                    *fourohfour*
+
+This plugin exposes the :FOF command which gives you a couple ways to
+quickly lookup HTTP status codes.
+
+
+:FOF {code}   If {code} is a known HTTP status code, a description of
+              that code will be echoed. If {code} is Dxx, where D is some
+              numeric value between 1 and 5, then a listing of status codes
+              for that group will be echoed. If {code} is not recognized,
+              then fourohfour will attempt to make some suggestions.
+
+LICENSE
+
+Copyright (c) Josh Branchaud
