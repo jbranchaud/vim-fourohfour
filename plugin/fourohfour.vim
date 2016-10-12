@@ -76,6 +76,16 @@ function! s:HTTPStatusCodes()
         \}
 endfunction
 
+function! s:FilterByKeys(dict, pattern)
+  let filtered_dict = {}
+  for [key,val] in items(a:dict)
+    if key =~ a:pattern
+      let filtered_dict[key] = val
+    endif
+  endfor
+  return filtered_dict
+endfunction
+
 function! s:LoadStatusCodes()
   if !exists('g:fourohfour_status_codes')
     let g:fourohfour_status_codes = s:HTTPStatusCodes()
@@ -91,7 +101,16 @@ function! s:LookupHTTPStatus(...) abort
     if has_key(status_codes, a:1)
       echo a:1." - ".status_codes[a:1]
     else
-      echo "No entry for ".a:1
+      let first_char = strpart(a:1, 0, 1)
+      let filtered_statuses = s:FilterByKeys(status_codes, "^".first_char)
+      if !empty(filtered_statuses)
+        echo "No entry for ".a:1.", but maybe you are looking for one of these:"
+        for [key,val] in items(filtered_statuses)
+          echo "* ".key." - ".val
+        endfor
+      else
+        echo "No entry for ".a:1
+      endif
     endif
   endif
 endfunction
