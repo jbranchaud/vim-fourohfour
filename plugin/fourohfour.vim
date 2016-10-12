@@ -1,5 +1,6 @@
 " fourohfour.vim - lookup HTTP status codes without leaving Vim
 " Author: Josh Branchaud (joshbranchaud.com)
+" Version: 0.1
 
 
 if exists('g:loaded_fourohfour')
