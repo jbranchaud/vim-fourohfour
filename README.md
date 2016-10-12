@@ -10,3 +10,8 @@ Want to see a list of all 5xx status codes, give `:FOF 5xx` a whirl.
 ## License
 
 Copyright (c) 2016 Josh Branchaud. MIT. See `LICENSE` for details.
+
+## Install
+
+*  [Vundle](https://github.com/gmarik/vundle)
+    * `Plugin 'jbranchaud/vim-fourohfour'`
