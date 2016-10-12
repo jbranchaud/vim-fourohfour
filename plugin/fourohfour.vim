@@ -7,6 +7,9 @@ if exists('g:loaded_fourohfour')
 endif
 let g:loaded_fourohfour = 1
 
+let s:save_cpo = &cpo
+set cpo&vim
+
 function! HTTPStatusCodes()
   return {
         \ '100': 'Continue',
@@ -100,5 +103,8 @@ endfunction
 command! -nargs=* FOF call LookupHTTPStatus( '<args>' )
 
 nnoremap <leader>k :call LookupHTTPStatusUnderCursor()<cr>
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
 
 " vim:set sw=2 sts=2:
