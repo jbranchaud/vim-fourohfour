@@ -10,7 +10,7 @@ let g:loaded_fourohfour = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! HTTPStatusCodes()
+function! s:HTTPStatusCodes()
   return {
         \ '100': 'Continue',
         \ '101': 'Switching Protocols',
@@ -76,18 +76,18 @@ function! HTTPStatusCodes()
         \}
 endfunction
 
-function! s:load_status_codes()
+function! s:LoadStatusCodes()
   if !exists('g:fourohfour_status_codes')
-    let g:fourohfour_status_codes = HTTPStatusCodes()
+    let g:fourohfour_status_codes = s:HTTPStatusCodes()
   endif
   return g:fourohfour_status_codes
 endfunction
 
-function! LookupHTTPStatus(...) abort
+function! s:LookupHTTPStatus(...) abort
   if a:0 ==# 0
     echo 'No arguments provided'
   else
-    let status_codes = s:load_status_codes()
+    let status_codes = s:LoadStatusCodes()
     if has_key(status_codes, a:1)
       echo a:1." - ".status_codes[a:1]
     else
@@ -96,13 +96,14 @@ function! LookupHTTPStatus(...) abort
   endif
 endfunction
 
-function! LookupHTTPStatusUnderCursor() abort
-  call LookupHTTPStatus( expand('<cword>') )
+function! s:LookupHTTPStatusUnderCursor() abort
+  call s:LookupHTTPStatus( expand('<cword>') )
 endfunction
 
-command! -nargs=* FOF call LookupHTTPStatus( '<args>' )
+command! -nargs=* FOF call s:LookupHTTPStatus( '<args>' )
 
-nnoremap <leader>k :call LookupHTTPStatusUnderCursor()<cr>
+nnoremap <leader>k :call s:LookupHTTPStatusUnderCursor()<cr>
+
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
