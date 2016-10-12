@@ -86,6 +86,10 @@ function! s:FilterByKeys(dict, pattern)
   return filtered_dict
 endfunction
 
+function! s:FilterStatusCodesBy(status_codes, pattern)
+  return s:FilterByKeys(a:status_codes, "^".a:pattern)
+endfunction
+
 function! s:LoadStatusCodes()
   if !exists('g:fourohfour_status_codes')
     let g:fourohfour_status_codes = s:HTTPStatusCodes()
@@ -93,23 +97,39 @@ function! s:LoadStatusCodes()
   return g:fourohfour_status_codes
 endfunction
 
+function! s:EchoStatusCodeDict(statuses)
+  for [key,val] in items(a:statuses)
+    echo "* ".key." - ".val
+  endfor
+endfunction
+
 function! s:LookupHTTPStatus(...) abort
   if a:0 ==# 0 || empty(a:1)
     echo 'No arguments provided, try something like `:FOF 418`'
   else
     let status_codes = s:LoadStatusCodes()
-    if has_key(status_codes, a:1)
-      echo a:1." - ".status_codes[a:1]
-    else
+    if a:1 =~ '^\dxx'
       let first_char = strpart(a:1, 0, 1)
-      let filtered_statuses = s:FilterByKeys(status_codes, "^".first_char)
+      let filtered_statuses = s:FilterStatusCodesBy(status_codes, first_char)
+      let first_three = strpart(a:1, 0, 3)
       if !empty(filtered_statuses)
-        echo "No entry for ".a:1.", but maybe you are looking for one of these:"
-        for [key,val] in items(filtered_statuses)
-          echo "* ".key." - ".val
-        endfor
+        echo first_three." Status Codes:"
+        call s:EchoStatusCodeDict(filtered_statuses)
       else
-        echo "No entry for ".a:1
+        echo "No status codes for ".first_three
+      endif
+    else
+      if has_key(status_codes, a:1)
+        echo a:1." - ".status_codes[a:1]
+      else
+        let first_char = strpart(a:1, 0, 1)
+        let filtered_statuses = s:FilterStatusCodesBy(status_codes, first_char)
+        if !empty(filtered_statuses)
+          echo "No entry for ".a:1.", but maybe you are looking for one of these:"
+          call s:EchoStatusCodeDict(filtered_statuses)
+        else
+          echo "No entry for ".a:1
+        endif
       endif
     endif
   endif
