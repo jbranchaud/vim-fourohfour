@@ -94,8 +94,8 @@ function! s:LoadStatusCodes()
 endfunction
 
 function! s:LookupHTTPStatus(...) abort
-  if a:0 ==# 0
-    echo 'No arguments provided'
+  if a:0 ==# 0 || empty(a:1)
+    echo 'No arguments provided, try something like `:FOF 418`'
   else
     let status_codes = s:LoadStatusCodes()
     if has_key(status_codes, a:1)
