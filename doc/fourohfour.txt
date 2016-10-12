@@ -16,4 +16,4 @@ quickly lookup HTTP status codes.
 
 LICENSE
 
-Copyright (c) Josh Branchaud
+Copyright (c) 2016 Josh Branchaud. Distributed under the MIT license.
