@@ -1,3 +1,3 @@
 # fourohfour.vim
 
-> look up HTTP status codes without leaving Vim
+> lookup HTTP status codes without leaving Vim
