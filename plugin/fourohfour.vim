@@ -99,9 +99,13 @@ function! s:LoadStatusCodes()
 endfunction
 
 function! s:EchoStatusCodeDict(statuses)
+  let sorted_statuses = []
   for [key,val] in items(a:statuses)
-    echo "* ".key." - ".val
+    call add(sorted_statuses, "* ".key." - ".val)
   endfor
+
+  call sort(sorted_statuses)
+  echo join(sorted_statuses, "\n")
 endfunction
 
 function! s:LookupHTTPStatus(...) abort
